@@ -4,7 +4,7 @@
 
 # Link do projeto
 
-[Dev Food](https://devfoods.vercel.app/)
+[Dev Food](https://devfood.vercel.app/)
 
 # 🔍 Sumário
 
@@ -12,11 +12,9 @@
 - [Arquitetura](#-arquitetura)
 - [Funcionalidades](#-funcionalidades)
 - [Tecnologias utilizadas](#-tecnologias-utilizadas)
-- [Estrutura de pastas](#-estrutura-de-pastas)
 - [Como rodar o projeto](#-como-rodar-o-projeto)
 - [Configuração do Google OAuth](#-configuração-do-google-oauth)
 - [Principais endpoints da API](#-principais-endpoints-da-api)
-- [Próximos passos](#-próximos-passos)
 
 ## 📗 Sobre
 
@@ -45,15 +43,8 @@ No processo de build, o frontend é exportado e copiado para `public/frontend`, 
 
 - Layout inspirado em app de delivery (mobile first)
 - Login com Google
-- Redirecionamento para login em rotas protegidas (perfil e pedidos)
-- Listagem de categorias e restaurantes
-- Página de restaurante com cardápio
-- Página de detalhe do produto com observações
-- Adição de itens na sacola
-- Finalização de pedido quando autenticado
-- Listagem de pedidos realizados
-- Toasts e interações de UI com animações
-- Carrosséis e seções recomendadas na home
+- Favoritar restaurantes
+- Visualizar pedidos
 
 ---
 
@@ -79,23 +70,6 @@ No processo de build, o frontend é exportado e copiado para `public/frontend`, 
 - Node.js / npm
 - Scripts customizados para copiar assets e publicar build no Laravel
 - Script para download e normalização de imagens do catálogo
-
----
-
-## 📁 Estrutura de pastas
-
-```bash
-devfood/
-├── app/                     # Controllers, models, services (Laravel)
-├── database/                # Migrations, seeders e SQLite
-├── routes/                  # Definição das rotas da API
-├── frontend/                # Aplicação Next.js
-│   ├── src/app/             # Rotas e páginas
-│   ├── src/components/      # Componentes visuais
-│   └── src/context/         # Contextos (sacola, toast etc.)
-├── public/frontend/         # Build estático copiado do Next
-└── scripts/                 # Scripts utilitários do projeto
-```
 
 ---
 
@@ -178,14 +152,6 @@ php artisan config:clear
 - `GET /api/v1/auth/google/callback`
 - `GET /api/v1/orders` (autenticado)
 - `POST /api/v1/orders` (autenticado)
-
----
-
-## 👨‍🚀 Próximos passos
-
-- Melhorar ainda mais a experiência desktop
-- Adicionar mais estados de feedback e confirmação em ações críticas
-- Expandir regras de pedido (status e histórico mais detalhado)
 
 ---
 
