@@ -1,6 +1,13 @@
 <?php
 
-$origins = env('CORS_ALLOWED_ORIGINS', '*');
+$explicit = env('CORS_ALLOWED_ORIGINS');
+
+if ($explicit !== null && $explicit !== '') {
+    $origins = $explicit;
+} else {
+    $appUrl = rtrim((string) env('APP_URL', ''), '/');
+    $origins = $appUrl !== '' ? $appUrl : '*';
+}
 
 return [
     'paths' => ['api/*'],

@@ -147,18 +147,7 @@ class AuthController extends Controller
 
     private function googleCallbackUrl(): string
     {
-        $redirect = config('services.google.redirect');
-
-        if (is_string($redirect) && $redirect !== '') {
-            return rtrim($redirect, '/');
-        }
-
-        $base = rtrim((string) config('app.url'), '/');
-        if (! $base) {
-            $base = rtrim((string) env('APP_URL', ''), '/');
-        }
-
-        return $base . '/api/v1/auth/google/callback';
+        return rtrim((string) config('services.google.redirect'), '/');
     }
 }
 

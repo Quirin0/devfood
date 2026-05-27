@@ -4,7 +4,7 @@
 
 # Link do projeto
 
-[Dev Food](https://devfood.vercel.app/)
+Configure `APP_URL` no `.env` com o domínio publicado (ex.: `https://seudominio.com`).
 
 # 🔍 Sumário
 
@@ -81,21 +81,23 @@ No processo de build, o frontend é exportado e copiado para `public/frontend`, 
 # na raiz do projeto
 composer install
 cp .env.example .env
+# Ajuste APP_URL=http://localhost:8000 no .env
 php artisan key:generate
 php artisan migrate:fresh --seed
 php artisan serve
 ```
 
-API disponível em: `http://localhost:8000/api/v1`
+API disponível em: `{APP_URL}/api/v1` (padrão `http://localhost:8000/api/v1`)
 
 ### 2) Frontend (desenvolvimento)
 
 ```bash
 cd frontend
 npm install
-cp .env.local.example .env.local
 npm run dev
 ```
+
+O `npm run dev` sincroniza `APP_URL` do `.env` da raiz para o frontend automaticamente.
 
 Frontend em: `http://localhost:3000`
 
@@ -114,54 +116,49 @@ Esse comando:
 
 Depois disso, acessando `http://localhost:8000`, o Laravel já entrega o frontend.
 
-### 4) Deploy na Vercel (somente frontend estático)
+### 4) Deploy no cPanel (Laravel)
 
-O repositório inclui `vercel.json` na raiz. A Vercel deve usar:
+O Laravel entrega **API + frontend** no mesmo domínio. Tudo depende de `APP_URL` no `.env`.
 
-- **Build Command:** `npm run build:vercel --prefix frontend`
-- **Output Directory:** `frontend/out`
-
-Não use `dist` nem o build do Vite da raiz (`npm run build` na raiz gera apenas assets do Laravel em `public/build`).
-
-No painel da Vercel, em **Environment Variables**, defina:
+**No `.env` de produção:**
 
 ```env
-NEXT_PUBLIC_API_URL=https://sua-api.com/api/v1
+APP_ENV=production
+APP_DEBUG=false
+APP_URL=https://seudominio.com
 ```
 
-A API Laravel precisa estar hospedada em outro serviço (Render, Railway, VPS etc.). A Vercel publica apenas o frontend exportado do Next.js.
+**Build do frontend** (local ou no servidor, com Node.js):
 
-### 5) Deploy em servidor PHP (produção)
+```bash
+cd frontend
+npm install
+npm run build
+```
 
-Use hospedagem com PHP (VPS, Hostinger, Render, Railway etc.).
+O `npm run build` lê `APP_URL` do `.env` da raiz, gera o frontend e copia para `public/frontend`.
 
-No servidor:
+**No servidor (SSH ou terminal do cPanel):**
 
 ```bash
 composer install --no-dev --optimize-autoloader
-cp .env.example .env   # ajuste APP_URL para o domínio real
 php artisan key:generate
 php artisan migrate --force
 php artisan config:cache
-
-cd frontend && npm install && npm run build
+php artisan route:cache
 ```
 
-No `.env` do Laravel:
+**Document root do domínio:** aponte para a pasta `public/` do projeto (não para a raiz do repositório).
 
-```env
-APP_URL=http://devfood.servermq.uk
+**Permissões:** `storage/` e `bootstrap/cache/` graváveis pelo PHP (775 ou 755, conforme o host).
+
+**Google OAuth:** no Google Cloud Console, use a URI com o mesmo domínio de `APP_URL`:
+
+```txt
+https://seudominio.com/api/v1/auth/google/callback
 ```
 
-**Importante:** o `APP_URL` do Laravel **não** altera o frontend já buildado.  
-O frontend, quando servido pelo mesmo domínio, chama a API em `/api/v1` automaticamente (sem CORS).
-
-Se frontend e API estiverem em domínios diferentes, defina no build:
-
-```env
-NEXT_PUBLIC_API_URL=https://seu-dominio.com/api/v1
-CORS_ALLOWED_ORIGINS=https://seu-frontend.com
-```
+Em produção o frontend chama `/api/v1` no mesmo domínio — sem CORS entre origens diferentes.
 
 ---
 

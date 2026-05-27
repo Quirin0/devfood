@@ -13,7 +13,7 @@ class GoogleOAuthController extends Controller
         return view('admin.google-oauth', [
             'clientId' => env('GOOGLE_CLIENT_ID', ''),
             'clientSecret' => env('GOOGLE_CLIENT_SECRET', ''),
-            'callbackUrl' => env('GOOGLE_CALLBACK_URL', ''),
+            'callbackUrl' => config('services.google.redirect'),
         ]);
     }
 
