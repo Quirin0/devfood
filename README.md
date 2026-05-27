@@ -1,5 +1,5 @@
 <h1 align="center">
-  <img src="file:///C:/Users/matheus/.cursor/projects/c-Users-matheus-Desktop-projetos-portfolio-devfood/assets/c__Users_matheus_AppData_Roaming_Cursor_User_workspaceStorage_6ab91f32b0efa8f67119d8395fb96695_images_image-7978741a-c777-40ef-9ed4-c68d5ebf9c55.png" alt="DevFood" />
+  <img src="https://i.postimg.cc/ZR6ScwC7/image.png" alt="DevFood" />
 </h1>
 
 # Link do projeto
