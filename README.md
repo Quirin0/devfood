@@ -131,6 +131,38 @@ NEXT_PUBLIC_API_URL=https://sua-api.com/api/v1
 
 A API Laravel precisa estar hospedada em outro serviço (Render, Railway, VPS etc.). A Vercel publica apenas o frontend exportado do Next.js.
 
+### 5) Deploy em servidor PHP (produção)
+
+Use hospedagem com PHP (VPS, Hostinger, Render, Railway etc.).
+
+No servidor:
+
+```bash
+composer install --no-dev --optimize-autoloader
+cp .env.example .env   # ajuste APP_URL para o domínio real
+php artisan key:generate
+php artisan migrate --force
+php artisan config:cache
+
+cd frontend && npm install && npm run build
+```
+
+No `.env` do Laravel:
+
+```env
+APP_URL=http://devfood.servermq.uk
+```
+
+**Importante:** o `APP_URL` do Laravel **não** altera o frontend já buildado.  
+O frontend, quando servido pelo mesmo domínio, chama a API em `/api/v1` automaticamente (sem CORS).
+
+Se frontend e API estiverem em domínios diferentes, defina no build:
+
+```env
+NEXT_PUBLIC_API_URL=https://seu-dominio.com/api/v1
+CORS_ALLOWED_ORIGINS=https://seu-frontend.com
+```
+
 ---
 
 ## 🔐 Configuração do Google OAuth
