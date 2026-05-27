@@ -114,6 +114,23 @@ Esse comando:
 
 Depois disso, acessando `http://localhost:8000`, o Laravel já entrega o frontend.
 
+### 4) Deploy na Vercel (somente frontend estático)
+
+O repositório inclui `vercel.json` na raiz. A Vercel deve usar:
+
+- **Build Command:** `npm run build:vercel --prefix frontend`
+- **Output Directory:** `frontend/out`
+
+Não use `dist` nem o build do Vite da raiz (`npm run build` na raiz gera apenas assets do Laravel em `public/build`).
+
+No painel da Vercel, em **Environment Variables**, defina:
+
+```env
+NEXT_PUBLIC_API_URL=https://sua-api.com/api/v1
+```
+
+A API Laravel precisa estar hospedada em outro serviço (Render, Railway, VPS etc.). A Vercel publica apenas o frontend exportado do Next.js.
+
 ---
 
 ## 🔐 Configuração do Google OAuth
